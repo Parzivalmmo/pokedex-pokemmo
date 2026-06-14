@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Pokédex Checklist - Kanto a Teselia</title>
+    <title>Pokédex Checklist - PokéMMO</title>
     <style>
         :root {
-            --kanto-color: #ff4d4d;
-            --johto-color: #ffcc00;
-            --hoenn-color: #33cc33;
-            --sinnoh-color: #3399ff;
-            --teselia-color: #9933ff;
             --bg-color: #121214;
             --card-bg: #1a1a1e;
             --text-color: #e1e1e6;
             --text-secondary: #a8a8b3;
+            --kanto: #ff4d4d;
+            --johto: #ffcc00;
+            --hoenn: #33cc33;
+            --sinnoh: #3399ff;
+            --teselia: #9933ff;
         }
 
         body {
@@ -28,43 +28,25 @@
         header {
             background: linear-gradient(135deg, #202024, #121214);
             border: 1px solid #29292e;
-            padding: 25px;
+            padding: 20px;
             border-radius: 12px;
             text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
         }
 
         header h1 {
             margin: 0;
-            font-size: 28px;
-            letter-spacing: 1px;
+            font-size: 26px;
             background: linear-gradient(45deg, #ff4d4d, #3399ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        header p {
-            color: var(--text-secondary);
-            margin: 8px 0 0 0;
-            font-size: 14px;
-        }
-
-        .stats-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .stat-badge {
-            background: #29292e;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
+        .stats {
+            margin-top: 10px;
+            font-size: 16px;
             font-weight: bold;
-            border: 1px solid #3e3e42;
+            color: #4caf50;
         }
 
         .region-nav {
@@ -79,55 +61,40 @@
             background: #202024;
             color: var(--text-color);
             border: 1px solid #29292e;
-            padding: 10px 18px;
+            padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: 0.2s;
         }
 
-        .nav-btn:hover {
-            background: #29292e;
-            transform: translateY(-2px);
-        }
+        .nav-btn:hover { background: #29292e; }
 
         .region-section {
             background-color: var(--card-bg);
             border-radius: 12px;
             padding: 20px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             border: 1px solid #29292e;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .region-title {
-            font-size: 22px;
+            font-size: 20px;
             margin-top: 0;
             padding-bottom: 10px;
             border-bottom: 2px solid #29292e;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .kanto .region-title { color: var(--kanto-color); }
-        .johto .region-title { color: var(--johto-color); }
-        .hoenn .region-title { color: var(--hoenn-color); }
-        .sinnoh .region-title { color: var(--sinnoh-color); }
-        .teselia .region-title { color: var(--teselia-color); }
-
-        .counter {
-            font-size: 14px;
-            color: var(--text-secondary);
-            background: #202024;
-            padding: 4px 10px;
-            border-radius: 12px;
-        }
+        .kanto h2 { color: var(--kanto); }
+        .johto h2 { color: var(--johto); }
+        .hoenn h2 { color: var(--hoenn); }
+        .sinnoh h2 { color: var(--sinnoh); }
+        .teselia h2 { color: var(--teselia); }
 
         .pokedex-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
             margin-top: 15px;
         }
 
@@ -135,56 +102,35 @@
             background: #202024;
             border: 1px solid #29292e;
             border-radius: 8px;
-            padding: 12px;
+            padding: 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
             user-select: none;
-            transition: all 0.2s ease;
+            transition: 0.2s;
         }
 
-        .pkmn-card:hover {
-            border-color: #3e3e42;
-            background: #252529;
-        }
+        .pkmn-card:hover { border-color: #3e3e42; }
 
-        .pkmn-card input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+        .pkmn-card input {
+            width: 16px;
+            height: 16px;
             cursor: pointer;
             accent-color: #4caf50;
         }
 
-        .pkmn-info {
-            display: flex;
-            flex-direction: column;
-        }
+        .pkmn-info { display: flex; flex-direction: column; }
+        .pkmn-num { font-size: 11px; color: var(--text-secondary); font-family: monospace; }
+        .pkmn-name { font-size: 13px; font-weight: 500; }
 
-        .pkmn-num {
-            font-size: 11px;
-            color: var(--text-secondary);
-            font-family: monospace;
-        }
-
-        .pkmn-name {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        /* Estilo para cuando el Pokémon ya está atrapado */
         .pkmn-card.caught {
             background: rgba(76, 175, 80, 0.1);
             border-color: rgba(76, 175, 80, 0.4);
         }
-
         .pkmn-card.caught .pkmn-name {
             text-decoration: line-through;
             color: #7ab87d;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -192,57 +138,50 @@
 
 <header>
     <h1>Pokédex Master Checklist</h1>
-    <p>Seguimiento de capturas para Kanto, Johto, Hoenn, Sinnoh y Teselia (Sin duplicados)</p>
-    <div class="stats-container">
-        <div class="stat-badge">Total Atrapados: <span id="global-counter">0</span> / 649</div>
-    </div>
+    <p>Seguimiento sin duplicados (Kanto hasta Teselia)</p>
+    <div class="stats">Atrapados: <span id="global-counter">0</span> / 649</div>
 </header>
 
 <div class="region-nav">
-    <button class="nav-btn" onclick="scrollToRegion('kanto')">Kanto (1-151)</button>
-    <button class="nav-btn" onclick="scrollToRegion('johto')">Johto (152-251)</button>
-    <button class="nav-btn" onclick="scrollToRegion('hoenn')">Hoenn (252-386)</button>
-    <button class="nav-btn" onclick="scrollToRegion('sinnoh')">Sinnoh (387-493)</button>
-    <button class="nav-btn" onclick="scrollToRegion('teselia')">Teselia (494-649)</button>
+    <button class="nav-btn" onclick="document.getElementById('kanto-sec').scrollIntoView({behavior: 'smooth'})">Kanto</button>
+    <button class="nav-btn" onclick="document.getElementById('johto-sec').scrollIntoView({behavior: 'smooth'})">Johto</button>
+    <button class="nav-btn" onclick="document.getElementById('hoenn-sec').scrollIntoView({behavior: 'smooth'})">Hoenn</button>
+    <button class="nav-btn" onclick="document.getElementById('sinnoh-sec').scrollIntoView({behavior: 'smooth'})">Sinnoh</button>
+    <button class="nav-btn" onclick="document.getElementById('teselia-sec').scrollIntoView({behavior: 'smooth'})">Teselia</button>
 </div>
 
-<div id="pokedex-container">
-    <!-- Las secciones se generarán dinámicamente mediante JavaScript de manera eficiente -->
+<div id="pokedex-app">
+    <!-- Secciones de Regiones -->
+    <div id="kanto-sec" class="region-section kanto"><h2>Kanto (Gen 1)</h2><div class="pokedex-grid" id="kanto-grid"></div></div>
+    <div id="johto-sec" class="region-section johto"><h2>Johto (Gen 2)</h2><div class="pokedex-grid" id="johto-grid"></div></div>
+    <div id="hoenn-sec" class="region-section hoenn"><h2>Hoenn (Gen 3)</h2><div class="pokedex-grid" id="hoenn-grid"></div></div>
+    <div id="sinnoh-sec" class="region-section sinnoh"><h2>Sinnoh (Gen 4)</h2><div class="pokedex-grid" id="sinnoh-grid"></div></div>
+    <div id="teselia-sec" class="region-section teselia"><h2>Teselia (Gen 5)</h2><div class="pokedex-grid" id="teselia-grid"></div></div>
 </div>
 
 <script>
-    // Datos compactos estructurados por Generación/Región (sin repetir evoluciones cruzadas)
-    const pokedexData = {
-        kanto: {
-            title: "Kanto (Gen 1)",
-            start: 1,
-            list: [
-                "Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise",
-                "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata",
-                "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "Nidoran♀",
-                "Nidorina", "Nidoqueen", "Nidoran♂", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales",
-                "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat",
-                "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe",
-                "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp",
-                "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta",
-                "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetch'd", "Doduo", "Dodrio", "Seel", "Dewgong",
-                "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby",
-                "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggcutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan",
-                "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra",
-                "Goldeen", "Seaking", "Staryu", "Starmie", "Mr. Mime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir",
-                "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon",
-                "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini",
-                "Dragonair", "Dragonite", "Mewtwo", "Mew"
-            ]
-        },
-        johto: {
-            title: "Johto (Gen 2)",
-            start: 152,
-            list: [
-                "Chikorita", "Bayleef", "Meganium", "Cyndaquil", "Quilava", "Typhlosion", "Totodile", "Croconaw", "Feraligatr",
-                "Sentret", "Furret", "Hoothoot", "Noctowl", "Ledyba", "Ledian", "Spinarak", "Ariados", "Crobat", "Chinchou",
-                "Lanturn", "Pichu", "Cleffa", "Igglybuff", "Togepi", "Togetic", "Natu", "Xatu", "Mareep", "Flaaffy", "Ampharos",
-                "Bellossom", "Marill", "Azumarill", "Sudowoodo", "Politoed", "Hoppip", "Skiploom", "Jumpluff", "Aipom", "Sunkern",
-                "Sunflora", "Yanma", "Wooper", "Quagsire", "Espeon", "Umbreon", "Murkrow", "Slowking", "Misdreavus", "Unown",
-                "Wobbuffet", "Girafarig", "Pineco", "Forretress", "Dunsparce", "Gligar", "Steelix", "Snubbull", "Granbull",
-                "QNormally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
+    // Listas compactas organizadas por su región de origen para evitar repeticiones de evoluciones cruzadas
+    const pkmnData = {
+        kanto: [
+            "Bulbasaur","Ivysaur","Venusaur","Charmander","Charmeleon","Charizard","Squirtle","Wartortle","Blastoise",
+            "Caterpie","Metapod","Butterfree","Weedle","Kakuna","Beedrill","Pidgey","Pidgeotto","Pidgeot","Rattata","Raticate",
+            "Spearow","Fearow","Ekans","Arbok","Pikachu","Raichu","Sandshrew","Sandslash","Nidoran♀","Nidorina","Nidoqueen",
+            "Nidoran♂","Nidorino","Nidoking","Clefairy","Clefable","Vulpix","Ninetales","Jigglypuff","Wigglytuff","Zubat",
+            "Golbat","Oddish","Gloom","Vileplume","Paras","Parasect","Venonat","Venomoth","Diglett","Dugtrio","Meowth",
+            "Persian","Psyduck","Golduck","Mankey","Primeape","Growlithe","Arcanine","Poliwag","Poliwhirl","Poliwrath","Abra",
+            "Kadabra","Alakazam","Machop","Machoke","Machamp","Bellsprout","Weepinbell","Victreebel","Tentacool","Tentacruel",
+            "Geodude","Graveler","Golem","Ponyta","Rapidash","Slowpoke","Slowbro","Magnemite","Magneton","Farfetch'd","Doduo",
+            "Dodrio","Seel","Dewgong","Grimer","Muk","Shellder","Cloyster","Gastly","Haunter","Gengar","Onix","Drowzee",
+            "Hypno","Krabby","Kingler","Voltorb","Electrode","Exeggcute","Exeggcutor","Cubone","Marowak","Hitmonlee","Hitmonchan",
+            "Lickitung","Koffing","Weezing","Rhyhorn","Rhydon","Chansey","Tangela","Kangaskhan","Horsea","Seadra","Goldeen",
+            "Seaking","Staryu","Starmie","Mr. Mime","Scyther","Jynx","Electabuzz","Magmar","Pinsir","Tauros","Magikarp",
+            "Gyarados","Lapras","Ditto","Eevee","Vaporeon","Jolteon","Flareon","Porygon","Omanyte","Omastar","Kabuto",
+            "Kabutops","Aerodactyl","Snorlax","Articuno","Zapdos","Moltres","Dratini","Dragonair","Dragonite","Mewtwo","Mew"
+        ],
+        johto: [
+            "Chikorita","Bayleef","Meganium","Cyndaquil","Quilava","Typhlosion","Totodile","Croconaw","Feraligatr",
+            "Sentret","Furret","Hoothoot","Noctowl","Ledyba","Ledian","Spinarak","Ariados","Crobat","Chinchou","Lanturn",
+            "Pichu","Cleffa","Igglybuff","Togepi","Togetic","Natu","Xatu","Mareep","Flaaffy","Ampharos","Bellossom",
+            "Marill","Azumarill","Sudowoodo","Politoed","Hoppip","Skiploom","Jumpluff","Aipom","Sunkern","Sunflora",
+            "Yanma","Wooper","Quagsire","Espeon","Umbreon","Murkrow","Slowking","Misdreavus","Unown","Wobbuffet","Girafarig",
+            "Pineco","Forretress","Dunsparce","Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
