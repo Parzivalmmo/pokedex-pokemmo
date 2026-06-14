@@ -88,7 +88,6 @@
             transform: translateY(-3px);
         }
 
-        /* Sprite animado */
         .pokemon-sprite {
             width: 64px;
             height: 64px;
@@ -136,17 +135,16 @@
     <header>
         <h1>PokeMMO Master Dex</h1>
         <p>Registra tu progreso de captura para las 5 regiones</p>
-        
+         
         <div class="search-container">
             <input type="text" id="searchBar" class="search-bar" placeholder="Buscar Pokémon por nombre o ID...">
         </div>
     </header>
 
-    <main id="dexContainer">
-        </main>
+    <main id="dexContainer"></main>
 
     <script>
-        // Datos maestros de la Pokédex organizados por bloque generacional sin un solo duplicado
+        // Datos maestros de la Pokédex organizados por bloque generacional
         const pokedexData = [
             {
                 region: "Kanto (Gen 1)",
@@ -168,7 +166,7 @@
                     { id: 43, name: "Oddish" }, { id: 44, name: "Gloom" }, { id: 45, name: "Vileplume" },
                     { id: 46, name: "Paras" }, { id: 47, name: "Parasect" }, { id: 48, name: "Venonat" },
                     { id: 49, name: "Venomoth" }, { id: 50, name: "Diglett" }, { id: 51, name: "Dugtrio" },
-                    { id: 52, name: "Meowth" }, { id: 53, name: "Persian" }, { id: 54, name: "Psduck" },
+                    { id: 52, name: "Meowth" }, { id: 53, name: "Persian" }, { id: 54, name: "Psyduck" },
                     { id: 55, name: "Golduck" }, { id: 56, name: "Mankey" }, { id: 57, name: "Primeape" },
                     { id: 58, name: "Growlithe" }, { id: 59, name: "Arcanine" }, { id: 60, name: "Poliwag" },
                     { id: 61, name: "Poliwhirl" }, { id: 62, name: "Poliwrath" }, { id: 63, name: "Abra" },
@@ -283,7 +281,7 @@
                     { id: 354, name: "Banette" }, { id: 355, name: "Duskull" }, { id: 356, name: "Dusclops" },
                     { id: 357, name: "Tropius" }, { id: 358, name: "Chimecho" }, { id: 359, name: "Absol" },
                     { id: 360, name: "Wynaut" }, { id: 361, name: "Snorunt" }, { id: 362, name: "Glalie" },
-                    { id: 363, name: "Spale" }, { id: 364, name: "Sealeo" }, { id: 365, name: "Walrein" },
+                    { id: 363, name: "Spheal" }, { id: 364, name: "Sealeo" }, { id: 365, name: "Walrein" },
                     { id: 366, name: "Clamperl" }, { id: 367, name: "Huntail" }, { id: 368, name: "Gorebyss" },
                     { id: 369, name: "Relicanth" }, { id: 370, name: "Luvdisc" }, { id: 371, name: "Bagon" },
                     { id: 372, name: "Shelgon" }, { id: 373, name: "Salamence" }, { id: 374, name: "Beldum" },
@@ -458,27 +456,29 @@
             localStorage.setItem('pokemmo_captured', JSON.stringify(capturedPokemon));
         }
 
-        // Filtro del buscador en tiempo real
+        // Filtro del buscador en tiempo real e interactividad con bloques regionales
         searchBar.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.pokemon-card');
-
-            cards.forEach(card => {
-                const name = card.dataset.name;
-                const id = card.dataset.id;
-
-                if (name.includes(query) || id.includes(query)) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-
-            // Auto-ocultar secciones vacías durante búsquedas
             const sections = document.querySelectorAll('.region-section');
+
             sections.forEach(section => {
-                const visibleCards = section.querySelectorAll('.pokemon-card:not(.hidden)');
-                if (visibleCards.length === 0 && query !== '') {
+                const cards = section.querySelectorAll('.pokemon-card');
+                let visibleCards = 0;
+
+                cards.forEach(card => {
+                    const name = card.dataset.name;
+                    const id = card.dataset.id;
+
+                    if (name.includes(query) || id.includes(query)) {
+                        card.classList.remove('hidden');
+                        visibleCards++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // Si una región completa no tiene resultados para la búsqueda, se oculta entera
+                if (visibleCards === 0 && query !== '') {
                     section.classList.add('hidden');
                 } else {
                     section.classList.remove('hidden');
@@ -486,7 +486,7 @@
             });
         });
 
-        // Lanzar al cargar la página
+        // Inicializar renderizado al cargar la página
         renderDex();
     </script>
 </body>
